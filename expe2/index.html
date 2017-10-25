@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>D3.js</title>
+    <script type="text/javascript" src="D3/d3.v3.js"></script>
+    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+    <style type="text/css">
+        .bar {
+            display: inline-block;
+            margin-right: 3px;
+            width: 14px;
+
+            background-color: teal;
+            /* color: teal;  */
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <script>
+        // d3.select("body").append("p").text("new paragraph!"); //连缀
+        // d3.csv("food.csv",function(d){
+        //     console.log(d);
+        // })
+        // var dataset;
+        // d3.csv(".food.csv",function(error,d){
+        //     if(error){
+        //         console.log(d);
+        //     }else{
+        //         dataset = d;
+        //     }
+        // })
+        // var dataset = [1, 2, 3, 4, 5, 6];
+
+        // d3.select("body").selectAll("p").data({dataset}).enter() //占位符
+        //     .append("p").text("new").style("color","red");
+        var dataset = [5, 10, 15, 20, 25, 30];
+        for (
+            var i = 0; i < 70; i++
+        ) {
+            var number = Math.random() * 30;
+            dataset.push(number);
+        }
+        // d3.select("body")
+        //     .selectAll("p")
+        //     .data(dataset)
+        //     .enter() //占位符
+        //     .append("p")
+        //     .text(function (d) {
+        //         return d;
+        //     })
+        //     .style("color", function (d) {
+        //         if (d > 3) { //大于三的上红色
+        //             return "red";
+        //         } else {
+        //             return "black";
+        //         }
+        //     });
+
+        //画柱状图
+        // d3.select("body")
+        //     .selectAll("div")
+        //     .data(dataset)
+        //     .enter()
+        //     .append("div")
+        //     .attr("class", "bar")
+        //     .style("height", function (d) {
+        //         return d + "px";
+        //     });
+
+        // //svg画圆
+        var w = 600; //画布宽
+        var h = 200; //画布高
+        var barpadding = 5;
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h); //创建画布结束
+        // var circles = svg.selectAll("circle")
+        // .data(dataset)
+        // .enter()
+        // .append("circle");
+        // circles.attr("cx",function(d,i){
+        //     return 25+(i*50);
+        // })
+        // .attr("cy",h/2)
+        // .attr("r",function(d){return d})
+        // .attr("fill","#f88889")
+        // .attr("stroke","black")
+        // .attr("stroke-width",function(d){return d/8})
+
+        //svg画直方图
+        var bars = svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i) {
+                return i * (w / dataset.length);
+            })
+            .attr("y", function (d) {
+                return h - 4 * d;
+            })
+            .attr("width", w / dataset.length - barpadding)
+            .attr("height", function (d) {
+                return d * 4;
+            })
+            .attr("fill", function (d) {
+                return "rgb(0," + (d * 10) + ",0)";
+            })
+
+        svg.selectAll("text")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .text(function (d) {
+                return Math.floor(d);
+            })
+            .attr("x", function (d, i) {
+                if (d < 10) { //保证不同长度的数字能够居中显示
+                    return (i * (w / dataset.length)) + (w / dataset.length) / 3;
+                } else {
+                    return (i * (w / dataset.length)) + (w / dataset.length) / 3 - 3;
+                }
+            })
+            .attr("y", function (d) {
+                return h - 4 * d + 10;
+            })
+            .attr("font-size", "5px")
+            .attr("fill", "white")
+    </script>
+</body>
+
+</html>

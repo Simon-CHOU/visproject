@@ -1,0 +1,5 @@
+type,price
+kaka,1
+jay,2
+dame,3
+fun,4
